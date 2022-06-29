@@ -128,7 +128,7 @@ export function Game() {
     askQuestion(questionMap, currentPlace);
   };
 
-  this.wasCorrectlyAnswered = function () {
+  this.correctAnswer = function () {
     const currentPlayerHasPenalty = players[currentPlayerIdx].inPenaltyBox;
 
     if (currentPlayerHasPenalty && isGettingOutOfPenaltyBox) {
@@ -179,7 +179,7 @@ export function run(seed) {
     if (Math.floor(faker.datatype.float({ min: 0, max: 1 }) * 10) === 7) {
       notAWinner = game.wrongAnswer();
     } else {
-      notAWinner = game.wasCorrectlyAnswered();
+      notAWinner = game.correctAnswer();
       game.nextPlayer();
     }
   } while (notAWinner);
