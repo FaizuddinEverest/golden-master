@@ -58,26 +58,10 @@ export function Game() {
   let currentPlayerIdx = 0;
   let isGettingOutOfPenaltyBox = false;
 
-  this.addPlayer = function (playerName) {
-    if (players.length === 0) {
-      players.push({
-        name: playerName,
-        purse: NaN,
-        place: NaN,
-        inPenaltyBox: false,
-      });
-    } else {
-      players.push({
-        name: playerName,
-        purse: 0,
-        place: 0,
-        inPenaltyBox: false,
-      });
-    }
-
-    console.log(`${playerName} was added`);
+  this.addPlayer = function (player) {
+    players.push(player);
+    console.log(`${player.name} was added`);
     console.log(`They are player number ${players.length}`);
-
     return true;
   };
 
@@ -170,9 +154,9 @@ export function run(seed) {
   let notAWinner = false;
   const game = new Game();
 
-  game.addPlayer("Chet");
-  game.addPlayer("Pat");
-  game.addPlayer("Sue");
+  game.addPlayer({ name: "Chet", purse: NaN, place: NaN, inPenaltyBox: false });
+  game.addPlayer({ name: "Pat", purse: 0, place: 0, inPenaltyBox: false });
+  game.addPlayer({ name: "Sue", purse: 0, place: 0, inPenaltyBox: false });
 
   do {
     game.roll(Math.floor(faker.datatype.float({ min: 0, max: 1 }) * 6) + 1);
