@@ -77,8 +77,8 @@ export function Game() {
       });
     }
 
-    console.log(playerName + " was added");
-    console.log("They are player number " + playerNames.length);
+    console.log(`${playerName} was added`);
+    console.log(`They are player number ${playerNames.length}`);
 
     return true;
   };
@@ -98,15 +98,15 @@ export function Game() {
   this.nextPlayer = nextPlayer;
 
   this.roll = function (roll) {
-    console.log(playerNames[currentPlayerIdx] + " is the current player");
+    console.log(`${playerNames[currentPlayerIdx]} is the current player`);
     console.log("They have rolled a " + roll);
 
-    const canEscapePenalty = roll % 2 !== 0;
     const currentPlayerHasPenalty = players[currentPlayerIdx].inPenaltyBox;
+    const canEscapePenalty = roll % 2 !== 0;
 
     if (currentPlayerHasPenalty && !canEscapePenalty) {
       console.log(
-        playerNames[currentPlayerIdx] + " is not getting out of the penalty box"
+        `${playerNames[currentPlayerIdx]} is not getting out of the penalty box`
       );
       isGettingOutOfPenaltyBox = false;
       return;
@@ -115,7 +115,7 @@ export function Game() {
     if (currentPlayerHasPenalty) {
       isGettingOutOfPenaltyBox = true;
       console.log(
-        playerNames[currentPlayerIdx] + " is getting out of the penalty box"
+        `${playerNames[currentPlayerIdx]} is getting out of the penalty box`
       );
     }
 
@@ -148,10 +148,7 @@ export function Game() {
     console.log("Answer was corrent!!!!");
     players[currentPlayerIdx].purse += 1;
     console.log(
-      playerNames[currentPlayerIdx] +
-        " now has " +
-        players[currentPlayerIdx].purse +
-        " Gold Coins."
+      `${playerNames[currentPlayerIdx]} now has ${players[currentPlayerIdx].purse} Gold Coins.`
     );
 
     return didPlayerWin(players[currentPlayerIdx].purse);
