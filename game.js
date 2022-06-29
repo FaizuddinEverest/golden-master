@@ -43,7 +43,6 @@ function askQuestion(questionMap, place) {
 }
 
 export function Game() {
-  const playerNames = [];
   const players = [];
 
   const { popQuestions, scienceQuestions, sportsQuestions, rockQuestions } =
@@ -60,8 +59,7 @@ export function Game() {
   let isGettingOutOfPenaltyBox = false;
 
   this.addPlayer = function (playerName) {
-    playerNames.push(playerName);
-    if (playerNames.length === 1) {
+    if (players.length === 0) {
       players.push({
         name: playerName,
         purse: NaN,
@@ -78,7 +76,7 @@ export function Game() {
     }
 
     console.log(`${playerName} was added`);
-    console.log(`They are player number ${playerNames.length}`);
+    console.log(`They are player number ${players.length}`);
 
     return true;
   };
@@ -93,12 +91,12 @@ export function Game() {
 
   function nextPlayer() {
     currentPlayerIdx += 1;
-    if (currentPlayerIdx === playerNames.length) currentPlayerIdx = 0;
+    if (currentPlayerIdx === players.length) currentPlayerIdx = 0;
   }
   this.nextPlayer = nextPlayer;
 
   this.roll = function (roll) {
-    console.log(`${playerNames[currentPlayerIdx]} is the current player`);
+    console.log(`${players[currentPlayerIdx].name} is the current player`);
     console.log("They have rolled a " + roll);
 
     const currentPlayerHasPenalty = players[currentPlayerIdx].inPenaltyBox;
@@ -106,7 +104,7 @@ export function Game() {
 
     if (currentPlayerHasPenalty && !canEscapePenalty) {
       console.log(
-        `${playerNames[currentPlayerIdx]} is not getting out of the penalty box`
+        `${players[currentPlayerIdx].name} is not getting out of the penalty box`
       );
       isGettingOutOfPenaltyBox = false;
       return;
@@ -115,14 +113,14 @@ export function Game() {
     if (currentPlayerHasPenalty) {
       isGettingOutOfPenaltyBox = true;
       console.log(
-        `${playerNames[currentPlayerIdx]} is getting out of the penalty box`
+        `${players[currentPlayerIdx].name} is getting out of the penalty box`
       );
     }
 
     movePlayer(roll);
     const currentPlace = players[currentPlayerIdx].place;
     console.log(
-      playerNames[currentPlayerIdx] + "'s new location is " + currentPlace
+      players[currentPlayerIdx].name + "'s new location is " + currentPlace
     );
     console.log("The category is " + getCurrentCategory(currentPlace));
     askQuestion(questionMap, currentPlace);
@@ -135,7 +133,7 @@ export function Game() {
       console.log("Answer was correct!!!!");
       players[currentPlayerIdx].purse += 1;
       console.log(
-        `${playerNames[currentPlayerIdx]} now has ${players[currentPlayerIdx].purse} Gold Coins.`
+        `${players[currentPlayerIdx].name} now has ${players[currentPlayerIdx].purse} Gold Coins.`
       );
 
       return didPlayerWin(players[currentPlayerIdx].purse);
@@ -148,7 +146,7 @@ export function Game() {
     console.log("Answer was corrent!!!!");
     players[currentPlayerIdx].purse += 1;
     console.log(
-      `${playerNames[currentPlayerIdx]} now has ${players[currentPlayerIdx].purse} Gold Coins.`
+      `${players[currentPlayerIdx].name} now has ${players[currentPlayerIdx].purse} Gold Coins.`
     );
 
     return didPlayerWin(players[currentPlayerIdx].purse);
@@ -156,7 +154,9 @@ export function Game() {
 
   this.wrongAnswer = function () {
     console.log("Question was incorrectly answered");
-    console.log(playerNames[currentPlayerIdx] + " was sent to the penalty box");
+    console.log(
+      players[currentPlayerIdx].name + " was sent to the penalty box"
+    );
     players[currentPlayerIdx].inPenaltyBox = true;
 
     nextPlayer();
