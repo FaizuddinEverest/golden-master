@@ -69,10 +69,7 @@ export function Game() {
   }
   this.nextPlayer = nextPlayer;
 
-  this.roll = function (roll) {
-    console.log(`${players[currentPlayerIdx].name} is the current player`);
-    console.log("They have rolled a " + roll);
-
+  this.handlePenalty = function (roll) {
     const currentPlayerHasPenalty = players[currentPlayerIdx].inPenaltyBox;
     const canEscapePenalty = roll % 2 !== 0;
 
@@ -81,7 +78,7 @@ export function Game() {
         `${players[currentPlayerIdx].name} is not getting out of the penalty box`
       );
       isGettingOutOfPenaltyBox = false;
-      return;
+      return false;
     }
 
     if (currentPlayerHasPenalty) {
@@ -89,6 +86,16 @@ export function Game() {
       console.log(
         `${players[currentPlayerIdx].name} is getting out of the penalty box`
       );
+    }
+    return true;
+  };
+
+  this.roll = function (roll) {
+    console.log(`${players[currentPlayerIdx].name} is the current player`);
+    console.log("They have rolled a " + roll);
+
+    if (!this.handlePenalty(roll)) {
+      return;
     }
 
     movePlayer(roll);
