@@ -36,6 +36,12 @@ function askQuestion(questionMap, place) {
   console.log(question);
 }
 
+function handleWrongAnswer(player) {
+  console.log("Question was incorrectly answered");
+  console.log(player.name + " was sent to the penalty box");
+  player.inPenaltyBox = true;
+}
+
 export function Game() {
   const players = [];
   const questionMap = initQuestions(["Pop", "Science", "Sports", "Rock"]);
@@ -121,13 +127,7 @@ export function Game() {
   };
 
   this.wrongAnswer = function () {
-    console.log("Question was incorrectly answered");
-    console.log(
-      players[currentPlayerIdx].name + " was sent to the penalty box"
-    );
-    players[currentPlayerIdx].inPenaltyBox = true;
-
-    nextPlayer();
+    handleWrongAnswer(players[currentPlayerIdx]);
     return true;
   };
 }
@@ -144,11 +144,12 @@ export function run(seed) {
 
   do {
     game.roll(Math.floor(faker.datatype.float({ min: 0, max: 1 }) * 6) + 1);
-    if (Math.floor(faker.datatype.float({ min: 0, max: 1 }) * 10) === 7) {
+    const won = Math.floor(faker.datatype.float({ min: 0, max: 1 }) * 10) === 7;
+    if (won) {
       notAWinner = game.wrongAnswer();
     } else {
       notAWinner = game.correctAnswer();
-      game.nextPlayer();
     }
+    game.nextPlayer();
   } while (notAWinner);
 }
