@@ -11,23 +11,17 @@ function createQuestion(category, idx) {
   return `${category} Question ${idx}`;
 }
 
-function initQuestions() {
-  const popQuestions = [];
-  const scienceQuestions = [];
-  const sportsQuestions = [];
-  const rockQuestions = [];
+function initQuestions(categories) {
+  const questionMap = {};
   for (let i = 0; i < 50; i++) {
-    popQuestions.push(createQuestion("Pop", i));
-    scienceQuestions.push(createQuestion("Science", i));
-    sportsQuestions.push(createQuestion("Sports", i));
-    rockQuestions.push(createQuestion("Rock", i));
+    categories.forEach((category) => {
+      if (!questionMap[category]) {
+        questionMap[category] = [];
+      }
+      questionMap[category].push(createQuestion(category, i));
+    });
   }
-  return {
-    popQuestions,
-    scienceQuestions,
-    sportsQuestions,
-    rockQuestions,
-  };
+  return questionMap;
 }
 
 const didPlayerWin = function (purse) {
@@ -44,16 +38,7 @@ function askQuestion(questionMap, place) {
 
 export function Game() {
   const players = [];
-
-  const { popQuestions, scienceQuestions, sportsQuestions, rockQuestions } =
-    initQuestions();
-
-  const questionMap = {
-    Pop: popQuestions,
-    Science: scienceQuestions,
-    Sports: sportsQuestions,
-    Rock: rockQuestions,
-  };
+  const questionMap = initQuestions(["Pop", "Science", "Sports", "Rock"]);
 
   let currentPlayerIdx = 0;
   let isGettingOutOfPenaltyBox = false;
