@@ -101,16 +101,15 @@ export function Game() {
   };
 
   this.correctAnswer = function () {
-    const currentPlayerHasPenalty = players[currentPlayerIdx].inPenaltyBox;
+    const player = players[currentPlayerIdx];
+    const currentPlayerHasPenalty = player.inPenaltyBox;
 
     if (currentPlayerHasPenalty && isGettingOutOfPenaltyBox) {
       console.log("Answer was correct!!!!");
-      players[currentPlayerIdx].purse += 1;
-      console.log(
-        `${players[currentPlayerIdx].name} now has ${players[currentPlayerIdx].purse} Gold Coins.`
-      );
+      player.purse += 1;
+      console.log(`${player.name} now has ${player.purse} Gold Coins.`);
 
-      return didPlayerWin(players[currentPlayerIdx].purse);
+      return didPlayerWin(player.purse);
     }
 
     if (currentPlayerHasPenalty) {
@@ -118,12 +117,10 @@ export function Game() {
     }
 
     console.log("Answer was corrent!!!!");
-    players[currentPlayerIdx].purse += 1;
-    console.log(
-      `${players[currentPlayerIdx].name} now has ${players[currentPlayerIdx].purse} Gold Coins.`
-    );
+    player.purse += 1;
+    console.log(`${player.name} now has ${player.purse} Gold Coins.`);
 
-    return didPlayerWin(players[currentPlayerIdx].purse);
+    return didPlayerWin(player.purse);
   };
 
   this.wrongAnswer = function () {
