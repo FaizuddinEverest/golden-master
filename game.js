@@ -47,7 +47,6 @@ export function Game() {
     players.push(player);
     console.log(`${player.name} was added`);
     console.log(`They are player number ${players.length}`);
-    return true;
   };
 
   function movePlayer(roll) {
