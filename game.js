@@ -170,8 +170,8 @@ export function Game() {
 export function run(seed) {
   faker.seed(seed);
 
-  var notAWinner = false;
-  var game = new Game();
+  let notAWinner = false;
+  const game = new Game();
 
   game.addPlayer("Chet");
   game.addPlayer("Pat");
