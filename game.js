@@ -3,11 +3,9 @@ import { faker } from "@faker-js/faker";
 const getCurrentCategory = (categories, place) =>
   categories[place % categories.length] || categories[categories.length - 1];
 
-function createQuestion(category, idx) {
-  return `${category} Question ${idx}`;
-}
+const createQuestion = (category, idx) => `${category} Question ${idx}`;
 
-function initQuestions(categories) {
+const initQuestions = (categories) => {
   const questionMap = {};
   for (let i = 0; i < 50; i++) {
     categories.forEach((category) => {
@@ -18,24 +16,24 @@ function initQuestions(categories) {
     });
   }
   return questionMap;
-}
+};
 
 const didPlayerWin = function (purse) {
   return !(purse === 6);
 };
 
 // impure, need to refactor
-function askQuestion(questionMap, category) {
+const askQuestion = (questionMap, category) => {
   const questions = questionMap[category];
   const question = questions.shift();
   console.log(question);
-}
+};
 
-function handleWrongAnswer(player) {
+const handleWrongAnswer = (player) => {
   console.log("Question was incorrectly answered");
   console.log(player.name + " was sent to the penalty box");
   player.inPenaltyBox = true;
-}
+};
 
 export function Game(categories) {
   const players = [];
