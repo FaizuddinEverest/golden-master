@@ -1,11 +1,7 @@
 import { faker } from "@faker-js/faker";
 
-function getCurrentCategory(place) {
-  const categories = ["Pop", "Science", "Sports", "Rock"];
-  return (
-    categories[place % categories.length] || categories[categories.length - 1]
-  );
-}
+const getCurrentCategory = (categories, place) =>
+  categories[place % categories.length] || categories[categories.length - 1];
 
 function createQuestion(category, idx) {
   return `${category} Question ${idx}`;
@@ -29,9 +25,8 @@ const didPlayerWin = function (purse) {
 };
 
 // impure, need to refactor
-function askQuestion(questionMap, place) {
-  const currentCategory = getCurrentCategory(place);
-  const questions = questionMap[currentCategory];
+function askQuestion(questionMap, category) {
+  const questions = questionMap[category];
   const question = questions.shift();
   console.log(question);
 }
@@ -42,9 +37,9 @@ function handleWrongAnswer(player) {
   player.inPenaltyBox = true;
 }
 
-export function Game() {
+export function Game(categories) {
   const players = [];
-  const questionMap = initQuestions(["Pop", "Science", "Sports", "Rock"]);
+  const questionMap = initQuestions(categories);
 
   let currentPlayerIdx = 0;
   let isGettingOutOfPenaltyBox = false;
@@ -99,8 +94,11 @@ export function Game() {
     movePlayer(roll);
     const currentPlace = player.place;
     console.log(player.name + "'s new location is " + currentPlace);
-    console.log("The category is " + getCurrentCategory(currentPlace));
-    askQuestion(questionMap, currentPlace);
+    console.log(
+      "The category is " + getCurrentCategory(categories, currentPlace)
+    );
+    const category = getCurrentCategory(categories, currentPlace);
+    askQuestion(questionMap, category);
   };
 
   this.correctAnswer = function () {
@@ -134,9 +132,9 @@ export function Game() {
 
 export function run(seed) {
   faker.seed(seed);
-
+  const categories = ["Pop", "Science", "Sports", "Rock"];
   let notAWinner = false;
-  const game = new Game();
+  const game = new Game(categories);
 
   game.addPlayer({ name: "Chet", purse: NaN, place: NaN, inPenaltyBox: false });
   game.addPlayer({ name: "Pat", purse: 0, place: 0, inPenaltyBox: false });
