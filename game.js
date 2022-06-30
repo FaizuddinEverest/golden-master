@@ -70,28 +70,26 @@ export function Game() {
   this.nextPlayer = nextPlayer;
 
   this.handlePenalty = function (roll) {
-    const currentPlayerHasPenalty = players[currentPlayerIdx].inPenaltyBox;
+    const player = players[currentPlayerIdx];
+    const currentPlayerHasPenalty = player.inPenaltyBox;
     const canEscapePenalty = roll % 2 !== 0;
 
     if (currentPlayerHasPenalty && !canEscapePenalty) {
-      console.log(
-        `${players[currentPlayerIdx].name} is not getting out of the penalty box`
-      );
+      console.log(`${player.name} is not getting out of the penalty box`);
       isGettingOutOfPenaltyBox = false;
       return false;
     }
 
     if (currentPlayerHasPenalty) {
       isGettingOutOfPenaltyBox = true;
-      console.log(
-        `${players[currentPlayerIdx].name} is getting out of the penalty box`
-      );
+      console.log(`${player.name} is getting out of the penalty box`);
     }
     return true;
   };
 
   this.roll = function (roll) {
-    console.log(`${players[currentPlayerIdx].name} is the current player`);
+    const player = players[currentPlayerIdx];
+    console.log(`${player.name} is the current player`);
     console.log("They have rolled a " + roll);
 
     if (!this.handlePenalty(roll)) {
@@ -99,10 +97,8 @@ export function Game() {
     }
 
     movePlayer(roll);
-    const currentPlace = players[currentPlayerIdx].place;
-    console.log(
-      players[currentPlayerIdx].name + "'s new location is " + currentPlace
-    );
+    const currentPlace = player.place;
+    console.log(player.name + "'s new location is " + currentPlace);
     console.log("The category is " + getCurrentCategory(currentPlace));
     askQuestion(questionMap, currentPlace);
   };
